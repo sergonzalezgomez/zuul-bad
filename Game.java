@@ -45,12 +45,12 @@ public class Game
         exterior = new Room("en la salida hacia al exterior");
 
         // initialise room exits
-        entradaCueva.setExits(null, puente, catacumbas, exterior);
-        catacumbas.setExits(entradaCueva, null, null, tesoro);
-        tesoro.setExits(null, catacumbas, null, null);
-        puente.setExits(lago, null, null, entradaCueva);
-        lago.setExits(null, null, puente, null);
-        exterior.setExits(null, entradaCueva, null, null);
+        entradaCueva.setExits(null, puente, catacumbas, exterior, null);
+        catacumbas.setExits(entradaCueva, null, null, tesoro, null);
+        tesoro.setExits(null, catacumbas, null, null, null);
+        puente.setExits(lago, null, null, entradaCueva, null);
+        lago.setExits(null, null, puente, null, null);
+        exterior.setExits(null, entradaCueva, null, null, catacumbas);
 
         currentRoom = entradaCueva;  // start game outside
     }
@@ -158,6 +158,9 @@ public class Game
         if(direction.equals("west")) {
             nextRoom = currentRoom.westExit;
         }
+        if(direction.equals("southEast")) {
+            nextRoom = currentRoom.southEastExit;
+        }
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
@@ -198,6 +201,9 @@ public class Game
         }
         if(currentRoom.westExit != null) {
             System.out.print("west ");
+        }
+        if(currentRoom.southEastExit != null) {
+            System.out.print("southEast ");
         }
         System.out.println();
     }
