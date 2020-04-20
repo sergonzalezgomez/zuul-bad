@@ -14,12 +14,12 @@
  */
 public class Room 
 {
-    public String description;
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
-    public Room southEastExit;
+    private String description;
+    private Room northExit;
+    private Room southExit;
+    private Room eastExit;
+    private Room westExit;
+    private Room southEastExit;
 
     /**
      * Create a room described "description". Initially, it has
@@ -62,4 +62,56 @@ public class Room
         return description;
     }
 
+    /**
+     * Devuelve la sala vecina a la actual que esta ubicada en la direccion indicada como parametro.
+     *
+     * @param salida Un String indicando la direccion por la que saldriamos de la sala actual
+     * @return La sala ubicada en la direccion especificada o null si no hay ninguna salida en esa direccion
+     */
+    public Room getExit(String salida) {
+        Room salidaADevolver = null;
+        if (salida.equals("north"))
+            salidaADevolver = northExit;
+        if (salida.equals("south"))
+            salidaADevolver = southExit;
+        if (salida.equals("east"))
+            salidaADevolver = eastExit;
+        if (salida.equals("west"))
+            salidaADevolver = westExit;
+        if (salida.equals("southEast"))
+            salidaADevolver = southEastExit;
+        return salidaADevolver;
+    }
+
+    /**
+     * Devuelve la información de las salidas existentes
+     * Por ejemplo: "Exits: north east west" o "Exits: south" 
+     * o "Exits: " si no hay salidas disponibles
+     *
+     * @return Una descripción de las salidas existentes.
+     */
+    public String getExitString() {
+        String exitsDescription = "Exits: ";
+        if(northExit != null)
+            exitsDescription += "north ";
+        if(southExit != null)
+            exitsDescription += "south ";
+        if(eastExit != null)
+            exitsDescription += "east ";
+        if(westExit != null)
+            exitsDescription += "west ";
+        if(southEastExit != null)
+            exitsDescription += "southEastn ";
+        return exitsDescription;
+    }
+
+    /**
+     * Define una salida para esta sala
+     * 
+     * @param direccion La direccion de la salida (por ejemplo "north" o "southEast")
+     * @param sala La sala que se encuentra en la direccion indicada
+     */
+    public void setExit(String direccion, Room sala) {
+        
+    }
 }
