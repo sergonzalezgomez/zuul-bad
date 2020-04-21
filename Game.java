@@ -34,7 +34,7 @@ public class Game
      */
     private void createRooms()
     {
-        Room entradaCueva, catacumbas, tesoro, puente, lago, exterior;
+        Room entradaCueva, catacumbas, tesoro, puente, lago, exterior, laberinto, rio;
 
         // create the rooms
         entradaCueva = new Room("entrada principal a la cueva");
@@ -43,14 +43,33 @@ public class Game
         puente = new Room("en el puente viejo");
         lago = new Room("en la salida hacia al lago");
         exterior = new Room("en la salida hacia al exterior");
+        laberinto = new Room("en el laberinto de pasillos");
+        rio = new Room("en la salida al río");
 
         // initialise room exits
-        entradaCueva.setExits(null, puente, catacumbas, exterior, null);
-        catacumbas.setExits(entradaCueva, null, null, tesoro, null);
-        tesoro.setExits(null, catacumbas, null, null, null);
-        puente.setExits(lago, null, null, entradaCueva, null);
-        lago.setExits(null, null, puente, null, null);
-        exterior.setExits(null, entradaCueva, null, null, catacumbas);
+        entradaCueva.setExits("south", catacumbas);
+        entradaCueva.setExits("east", puente);
+        entradaCueva.setExits("west", exterior);
+        entradaCueva.setExits("northWest", laberinto);
+        
+        catacumbas.setExits("north", entradaCueva);
+        catacumbas.setExits("west", tesoro);
+        catacumbas.setExits("northWest", exterior);
+        
+        tesoro.setExits("east", catacumbas);
+        
+        puente.setExits("north", lago);
+        puente.setExits("west", entradaCueva);
+        puente.setExits("abajo", rio);
+        
+        lago.setExits("south", puente);
+        
+        exterior.setExits("southEast", catacumbas);
+        exterior.setExits("east", entradaCueva);
+        
+        laberinto.setExits("northEast", entradaCueva);
+        
+        rio.setExits("north", puente);
 
         currentRoom = entradaCueva;  // start game outside
     }
