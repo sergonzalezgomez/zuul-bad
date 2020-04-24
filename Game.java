@@ -37,7 +37,7 @@ public class Game
         Room entradaCueva, catacumbas, tesoro, puente, lago, exterior, laberinto, rio;
 
         // create the rooms
-        entradaCueva = new Room("entrada principal a la cueva");
+        entradaCueva = new Room("en la entrada principal a la cueva");
         catacumbas = new Room("en las catacumbas");
         tesoro = new Room("en la sala del tesoro");
         puente = new Room("en el puente viejo");
@@ -192,8 +192,6 @@ public class Game
     }
 
     private void printLocationInfo() {
-        System.out.println("You are " + currentRoom.getDescription());
-        System.out.print(currentRoom.getExitString());
-        System.out.println();
+        System.out.println(currentRoom.getLongDescription());
     }
 }

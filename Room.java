@@ -19,7 +19,7 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> exits;
-    
+
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -77,5 +77,16 @@ public class Room
             exitsDescription += direction + " ";
         }
         return exitsDescription;
+    }
+
+    /**
+     * Devuelve un texto con la descripcion completa de la habitacion, que 
+     * incluye la descripcion corta de la sala y las salidas de la misma. Por ejemplo:
+     *     You are in the lab
+     *     Exits: north west southwest
+     * @return Una descripcion completa de la habitacion incluyendo sus salidas
+     */
+    public String getLongDescription() {
+        return "You are " + description + ".\n" + getExitString();
     }
 }
