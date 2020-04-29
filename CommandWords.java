@@ -42,11 +42,11 @@ public class CommandWords
     /** 
      * Imprime por pantalla todos los comandos válidos 
      */
-    public void showAll() {
+    public String showAll() {
         String comandos = "";
         for (String comando : validCommands) {
             comandos += comando + " ";
         } 
-        System.out.print(comandos + "\n");
+        return comandos;
     }
 }
