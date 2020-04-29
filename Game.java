@@ -51,24 +51,24 @@ public class Game
         entradaCueva.setExits("east", puente);
         entradaCueva.setExits("west", exterior);
         entradaCueva.setExits("northWest", laberinto);
-        
+
         catacumbas.setExits("north", entradaCueva);
         catacumbas.setExits("west", tesoro);
         catacumbas.setExits("northWest", exterior);
-        
+
         tesoro.setExits("east", catacumbas);
-        
+
         puente.setExits("north", lago);
         puente.setExits("west", entradaCueva);
         puente.setExits("abajo", rio);
-        
+
         lago.setExits("south", puente);
-        
+
         exterior.setExits("southEast", catacumbas);
         exterior.setExits("east", entradaCueva);
-        
+
         laberinto.setExits("northEast", entradaCueva);
-        
+
         rio.setExits("north", puente);
 
         currentRoom = entradaCueva;  // start game outside
@@ -129,7 +129,9 @@ public class Game
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
-
+        else if (commandWord.equals("look")) {
+            look();
+        }
         return wantToQuit;
     }
 
@@ -192,6 +194,10 @@ public class Game
     }
 
     private void printLocationInfo() {
+        System.out.println(currentRoom.getLongDescription());
+    }
+
+    private void look() {
         System.out.println(currentRoom.getLongDescription());
     }
 }

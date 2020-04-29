@@ -72,7 +72,7 @@ public class Room
      */
     public String getExitString() {
         Set<String> salidas = exits.keySet();
-        String exitsDescription = "Exist ";
+        String exitsDescription = "Exist: ";
         for (String direction : salidas) {
             exitsDescription += direction + " ";
         }
