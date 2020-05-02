@@ -37,14 +37,14 @@ public class Game
         Room entradaCueva, catacumbas, tesoro, puente, lago, exterior, laberinto, rio;
 
         // create the rooms
-        entradaCueva = new Room("en la entrada principal a la cueva");
-        catacumbas = new Room("en las catacumbas");
-        tesoro = new Room("en la sala del tesoro");
-        puente = new Room("en el puente viejo");
-        lago = new Room("en la salida hacia al lago");
-        exterior = new Room("en la salida hacia al exterior");
-        laberinto = new Room("en el laberinto de pasillos");
-        rio = new Room("en la salida al río");
+        entradaCueva = new Room("en la entrada principal a la cueva", "", 0);
+        catacumbas = new Room("en las catacumbas", "", 0);
+        tesoro = new Room("en la sala del tesoro", "Tesoro", 4000);
+        puente = new Room("en el puente viejo", "Puñal", 340);
+        lago = new Room("en la salida hacia al lago", "", 0);
+        exterior = new Room("en la salida hacia al exterior", "", 0);
+        laberinto = new Room("en el laberinto de pasillos", "Manzana", 170);
+        rio = new Room("en la salida al río", "", 0);
 
         // initialise room exits
         entradaCueva.setExits("south", catacumbas);
