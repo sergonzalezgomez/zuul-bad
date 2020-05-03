@@ -35,16 +35,22 @@ public class Game
     private void createRooms()
     {
         Room entradaCueva, catacumbas, tesoro, puente, lago, exterior, laberinto, rio;
-
+        Item puñal;
+        Item manzana;
+        Item cofreTesoro;
+        
+        puñal = new Item("Puñal", 10);
+        manzana = new Item("Manzana", 180);
+        cofreTesoro = new Item("Cofre del tesoro", 1500);
         // create the rooms
-        entradaCueva = new Room("en la entrada principal a la cueva", "", 0);
-        catacumbas = new Room("en las catacumbas", "", 0);
-        tesoro = new Room("en la sala del tesoro", "Tesoro", 4000);
-        puente = new Room("en el puente viejo", "Puñal", 340);
-        lago = new Room("en la salida hacia al lago", "", 0);
-        exterior = new Room("en la salida hacia al exterior", "", 0);
-        laberinto = new Room("en el laberinto de pasillos", "Manzana", 170);
-        rio = new Room("en la salida al río", "", 0);
+        entradaCueva = new Room("en la entrada principal a la cueva", null);
+        catacumbas = new Room("en las catacumbas", null);
+        tesoro = new Room("en la sala del tesoro", cofreTesoro);
+        puente = new Room("en el puente viejo", puñal);
+        lago = new Room("en la salida hacia al lago", null);
+        exterior = new Room("en la salida hacia al exterior", null);
+        laberinto = new Room("en el laberinto de pasillos", manzana);
+        rio = new Room("en la salida al río", null);
 
         // initialise room exits
         entradaCueva.setExits("south", catacumbas);
