@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -19,8 +21,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-    private Room lastRoom;
-    private Command salas;
+    private Stack<Room> rooms;
 
     /**
      * Create the game and initialise its internal map.
@@ -29,8 +30,8 @@ public class Game
     {
         createRooms();
         parser = new Parser();
-        lastRoom = null;
-        salas = null;
+        rooms = new Stack<>();
+        rooms.push(currentRoom);
     }
 
     /**
@@ -39,7 +40,7 @@ public class Game
     private void createRooms()
     {
         Room entradaCueva, catacumbas, tesoro, puente, lago, exterior, laberinto, rio;
-        
+
         // create the rooms
         entradaCueva = new Room("en la entrada principal a la cueva");
         catacumbas = new Room("en las catacumbas");
@@ -74,7 +75,7 @@ public class Game
         laberinto.setExits("northEast", entradaCueva);
 
         rio.setExits("north", puente);
-        
+
         // initialise room items
         laberinto.addItem("Manzana", 180);
         tesoro.addItem("Cofre del tesoro", 1500);
@@ -137,7 +138,7 @@ public class Game
         }
         else if (commandWord.equals("go")) {
             goRoom(command);
-            lastRoom = currentRoom;
+            rooms.add(currentRoom);
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -149,10 +150,15 @@ public class Game
             eat();
         }
         else if (commandWord.equals("back")) {
-            if (salas.getCommandWord().equals("go"))
-                currentRoom = lastRoom;
+            if (rooms.isEmpty()) {
+                rooms.push(currentRoom);
+                System.out.println("No se puede volver más atras");
+            }    
+            else{
+                currentRoom = rooms.pop();
+            }
+            printLocationInfo();
         }
-        salas = command;
         return wantToQuit;
     }
 
@@ -193,6 +199,8 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            
+            rooms.push(currentRoom);
             currentRoom = nextRoom;
             printLocationInfo();
         }
@@ -225,5 +233,5 @@ public class Game
     private void eat() {
         System.out.println("You have eaten now and you are not hungry any more.");
     }
-    
+
 }
