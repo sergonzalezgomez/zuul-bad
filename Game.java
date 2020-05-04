@@ -35,22 +35,16 @@ public class Game
     private void createRooms()
     {
         Room entradaCueva, catacumbas, tesoro, puente, lago, exterior, laberinto, rio;
-        Item puñal;
-        Item manzana;
-        Item cofreTesoro;
         
-        puñal = new Item("Puñal", 10);
-        manzana = new Item("Manzana", 180);
-        cofreTesoro = new Item("Cofre del tesoro", 1500);
         // create the rooms
-        entradaCueva = new Room("en la entrada principal a la cueva", null);
-        catacumbas = new Room("en las catacumbas", null);
-        tesoro = new Room("en la sala del tesoro", cofreTesoro);
-        puente = new Room("en el puente viejo", puñal);
-        lago = new Room("en la salida hacia al lago", null);
-        exterior = new Room("en la salida hacia al exterior", null);
-        laberinto = new Room("en el laberinto de pasillos", manzana);
-        rio = new Room("en la salida al río", null);
+        entradaCueva = new Room("en la entrada principal a la cueva");
+        catacumbas = new Room("en las catacumbas");
+        tesoro = new Room("en la sala del tesoro");
+        puente = new Room("en el puente viejo");
+        lago = new Room("en la salida hacia al lago");
+        exterior = new Room("en la salida hacia al exterior");
+        laberinto = new Room("en el laberinto de pasillos");
+        rio = new Room("en la salida al río");
 
         // initialise room exits
         entradaCueva.setExits("south", catacumbas);
@@ -76,6 +70,14 @@ public class Game
         laberinto.setExits("northEast", entradaCueva);
 
         rio.setExits("north", puente);
+        
+        // initialise room items
+        laberinto.addItem("Manzana", 180);
+        tesoro.addItem("Cofre del tesoro", 1500);
+        catacumbas.addItem("Espada", 1300);
+        catacumbas.addItem("Poción", 60);
+        puente.addItem("Puñal", 90);
+        rio.addItem("Linterna", 200);
 
         currentRoom = entradaCueva;  // start game outside
     }
@@ -213,4 +215,5 @@ public class Game
     private void eat() {
         System.out.println("You have eaten now and you are not hungry any more.");
     }
+    
 }
