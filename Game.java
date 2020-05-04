@@ -19,6 +19,8 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Room lastRoom;
+    private Command salas;
 
     /**
      * Create the game and initialise its internal map.
@@ -27,6 +29,8 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        lastRoom = null;
+        salas = null;
     }
 
     /**
@@ -133,6 +137,7 @@ public class Game
         }
         else if (commandWord.equals("go")) {
             goRoom(command);
+            lastRoom = currentRoom;
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -143,6 +148,11 @@ public class Game
         else if (commandWord.equals("eat")) {
             eat();
         }
+        else if (commandWord.equals("back")) {
+            if (salas.getCommandWord().equals("go"))
+                currentRoom = lastRoom;
+        }
+        salas = command;
         return wantToQuit;
     }
 
