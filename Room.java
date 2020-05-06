@@ -93,7 +93,7 @@ public class Room
         String aDevolver = "You are " + description + ".\n" ;
         for (Item item : items) {
             aDevolver += item.getItem() + "\n";
-            }
+        }
         return aDevolver + "\n" + getExitString();
     }
 

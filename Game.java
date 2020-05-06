@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -21,9 +22,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-    private ArrayList<Room> salasAnteriores;
-    private int usosBack;
-    private int usosGo;
+    private Stack<Room> salasAnteriores;
 
     /**
      * Create the game and initialise its internal map.
@@ -32,9 +31,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
-        salasAnteriores = new ArrayList<>();
-        usosBack = 0;
-        usosGo = 0;
+        salasAnteriores = new Stack<>();
     }
 
     /**
@@ -103,7 +100,7 @@ public class Game
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
-            salasAnteriores.add(currentRoom);
+            
             finished = processCommand(command);
         }
         System.out.println("Thank you for playing.  Good bye.");
@@ -142,8 +139,6 @@ public class Game
         }
         else if (commandWord.equals("go")) {
             goRoom(command);
-            usosBack = 0;
-            usosGo ++;
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -155,12 +150,11 @@ public class Game
             eat();
         }
         else if (commandWord.equals("back")) {
-            if (usosBack < 2 && usosGo != 0){
-                usosBack ++;
-                currentRoom = salasAnteriores.get(salasAnteriores.size() - 2); 
+            if (!salasAnteriores.empty()) {
+                currentRoom = salasAnteriores.pop();
             }
             else {
-                System.out.println("No se puede retroceder más.");
+                System.out.println("No se puede volver más atras.");
             }
             printLocationInfo();
         }
@@ -205,7 +199,7 @@ public class Game
         }
         else {
             Room salaAnterior = currentRoom;
-            salasAnteriores.add(salaAnterior);
+            salasAnteriores.push(salaAnterior);
             currentRoom = nextRoom;
             printLocationInfo();
         }
