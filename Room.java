@@ -91,14 +91,12 @@ public class Room
      */
     public String getLongDescription() {
         String aDevolver = "You are " + description + ".\n" ;
-        if (items.size() >= 0) {
-            for (Item item : items) {
-                aDevolver += item.getItem() + "\n";
+        for (Item item : items) {
+            aDevolver += item.getItem() + "\n";
             }
-        }
         return aDevolver + "\n" + getExitString();
     }
-    
+
     public void addItem(String nombre, int peso) {
         Item item = new Item(nombre, peso);
         items.add(item);

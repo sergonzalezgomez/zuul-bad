@@ -1,4 +1,4 @@
-import java.util.Stack;
+import java.util.ArrayList;
 
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -21,7 +21,9 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-    private Stack<Room> rooms;
+    private ArrayList<Room> salasAnteriores;
+    private int usosBack;
+    private int usosGo;
 
     /**
      * Create the game and initialise its internal map.
@@ -30,8 +32,9 @@ public class Game
     {
         createRooms();
         parser = new Parser();
-        rooms = new Stack<>();
-        rooms.push(currentRoom);
+        salasAnteriores = new ArrayList<>();
+        usosBack = 0;
+        usosGo = 0;
     }
 
     /**
@@ -100,6 +103,7 @@ public class Game
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
+            salasAnteriores.add(currentRoom);
             finished = processCommand(command);
         }
         System.out.println("Thank you for playing.  Good bye.");
@@ -138,7 +142,8 @@ public class Game
         }
         else if (commandWord.equals("go")) {
             goRoom(command);
-            rooms.add(currentRoom);
+            usosBack = 0;
+            usosGo ++;
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -150,12 +155,12 @@ public class Game
             eat();
         }
         else if (commandWord.equals("back")) {
-            if (rooms.isEmpty()) {
-                rooms.push(currentRoom);
-                System.out.println("No se puede volver más atras");
-            }    
-            else{
-                currentRoom = rooms.pop();
+            if (usosBack < 2 && usosGo != 0){
+                usosBack ++;
+                currentRoom = salasAnteriores.get(salasAnteriores.size() - 2); 
+            }
+            else {
+                System.out.println("No se puede retroceder más.");
             }
             printLocationInfo();
         }
@@ -199,8 +204,8 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
-            
-            rooms.push(currentRoom);
+            Room salaAnterior = currentRoom;
+            salasAnteriores.add(salaAnterior);
             currentRoom = nextRoom;
             printLocationInfo();
         }
