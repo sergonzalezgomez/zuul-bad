@@ -92,13 +92,29 @@ public class Room
     public String getLongDescription() {
         String aDevolver = "You are " + description + ".\n" ;
         for (Item item : items) {
-            aDevolver += item.getItem() + "\n";
+            aDevolver += item.getItem();
         }
         return aDevolver + "\n" + getExitString();
     }
 
-    public void addItem(String nombre, int peso) {
-        Item item = new Item(nombre, peso);
+    public void addItem(String id, String itemDescription, int itemWeight) {
+        Item item = new Item(id, itemDescription, itemWeight);
+        items.add(item);
+    }
+    
+    public Item cogerItem(String item) {
+        Item itemRecogido = null;
+        Item soltarItem = null;
+        for (Item itemActual : items) {
+            if (itemActual.getId().equals(item)) {
+                itemRecogido = itemActual;
+            }
+        }
+        items.remove(itemRecogido);
+        return itemRecogido;
+    }
+    
+    public void soltarItem (Item item) {
         items.add(item);
     }
 }

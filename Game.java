@@ -23,6 +23,9 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Stack<Room> salasAnteriores;
+    private ArrayList<Item> items;
+    private int pesoItems;
+    private int pesoMaxItems;
 
     /**
      * Create the game and initialise its internal map.
@@ -32,6 +35,9 @@ public class Game
         createRooms();
         parser = new Parser();
         salasAnteriores = new Stack<>();
+        items = new ArrayList<>();
+        pesoItems = 0;
+        pesoMaxItems = 500;
     }
 
     /**
@@ -77,12 +83,12 @@ public class Game
         rio.setExits("north", puente);
 
         // initialise room items
-        laberinto.addItem("Manzana", 180);
-        tesoro.addItem("Cofre del tesoro", 1500);
-        catacumbas.addItem("Espada", 1300);
-        catacumbas.addItem("Poción", 60);
-        puente.addItem("Puñal", 90);
-        rio.addItem("Linterna", 200);
+        laberinto.addItem("manzana", "Manzana Dorada", 80);
+        tesoro.addItem("cofre", "Cofre del tesoro lleno de monedas", 300);
+        catacumbas.addItem("espada", "Espada encantada", 120);
+        catacumbas.addItem("pocion", "Poción para recuperar la salud", 80);
+        puente.addItem("puñal", "Puñal encantado", 100);
+        rio.addItem("linterna", "Linterna", 90);
 
         currentRoom = entradaCueva;  // start game outside
     }
@@ -100,7 +106,7 @@ public class Game
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
-            
+
             finished = processCommand(command);
         }
         System.out.println("Thank you for playing.  Good bye.");
@@ -150,13 +156,16 @@ public class Game
             eat();
         }
         else if (commandWord.equals("back")) {
-            if (!salasAnteriores.empty()) {
-                currentRoom = salasAnteriores.pop();
-            }
-            else {
-                System.out.println("No se puede volver más atras.");
-            }
-            printLocationInfo();
+            back();
+        }
+        else if (commandWord.equals("take")) {
+            take(command);
+        }
+        else if (commandWord.equals("drop")) {
+            drop(command);
+        }
+        else if (commandWord.equals("items")) {
+            items();
         }
         return wantToQuit;
     }
@@ -233,4 +242,71 @@ public class Game
         System.out.println("You have eaten now and you are not hungry any more.");
     }
 
+    private void back() {
+        if (!salasAnteriores.empty()) {
+            currentRoom = salasAnteriores.pop();
+        }
+        else {
+            System.out.println("No se puede volver más atras.");
+        }
+        printLocationInfo();
+    }
+
+    private void take(Command command) {
+        if(!command.hasSecondWord()) {
+            System.out.println("Indica el objeto que deseas coger.");
+        }
+        else {
+            String item = command.getSecondWord();
+            Item cogerItem = currentRoom.cogerItem(item);
+            if (cogerItem == null) {
+                System.out.println("No existe ese objeto en esta sala.");
+            }
+            else {
+                if (cogerItem.getItemWeight() + pesoItems > pesoMaxItems) {
+                    System.out.println("Has alcanzado el máximo peso total de objetos!");
+                    items.add(cogerItem);
+                    drop(command);
+                    pesoItems += cogerItem.getItemWeight();
+                }
+                else { 
+                    items.add(cogerItem);
+                    pesoItems += cogerItem.getItemWeight();
+                    System.out.println("Recogido el objeto: " + 
+                        cogerItem.getItemDescription() + ", de peso: " + 
+                        cogerItem.getItemWeight() + ".");
+                }
+            }
+        }
+    }
+
+    private void drop (Command command) {
+        if (!command.hasSecondWord()) {
+            System.out.println("Indica el objeto que deseas soltar.");
+        }
+        else {
+            String item = command.getSecondWord();
+            Item soltarItem = null;
+            for (Item itemASoltar : items) {
+                if (itemASoltar.getId().equals(item)) {
+                    soltarItem = itemASoltar;                    
+                }
+            }
+            items.remove(soltarItem);
+            if (soltarItem == null) {
+                System.out.println("No existe ese objeto en tu inventario.");
+            }
+            else {
+                currentRoom.soltarItem(soltarItem);
+                pesoItems -= soltarItem.getItemWeight();
+            }
+        }
+    }
+
+    private void items()
+    {
+        for (Item itemActual : items) {
+            System.out.println(itemActual.getAllItems());
+        }
+    }
 }
