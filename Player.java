@@ -113,4 +113,19 @@ public class Player
             }
         }
     }
+    
+    public void items()
+    {
+        if (!items.isEmpty()) {
+            int pesoTotal = 0;
+            for (Item item : items) {
+                System.out.println(item.getItemDescription());
+                pesoTotal += item.getItemWeight();
+            }
+            System.out.println("Peso total de los objetos: " + pesoTotal + ".");
+        }
+        else {
+            System.out.println("Todavía no tienes objetos.");
+        }
+    }
 }
