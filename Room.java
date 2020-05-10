@@ -97,11 +97,11 @@ public class Room
         return aDevolver + "\n" + getExitString();
     }
 
-    public void addItem(String id, String descripcion,  int peso) {
-        Item item = new Item(id, descripcion, peso);
+    public void addItem(String id, String descripcion,  int peso, boolean coger) {
+        Item item = new Item(id, descripcion, peso, coger);
         items.add(item);
     }
-    
+
     public Item cogerItem(String item)
     {
         Item itemRecogido = null;
@@ -113,5 +113,9 @@ public class Room
         }
         items.remove(itemRecogido);
         return itemRecogido;
+    }
+
+    public void soltarItem (Item item) {
+        items.add(item);
     }
 }

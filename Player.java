@@ -78,10 +78,39 @@ public class Player
                 System.out.println("Ese objeto no existe en esta habitación.");
             }
             else {
-                items.add(cogerItem);
-                System.out.println("Has recogido el objeto: " + cogerItem.getId()
-                    + " ,de peso: " + cogerItem.getItemWeight() + ".");
+                if (cogerItem.sePuedeCoger()){
+                    items.add(cogerItem);
+                    System.out.println("Has recogido el objeto: " + cogerItem.getId()
+                        + " ,de peso: " + cogerItem.getItemWeight() + ".");
+                }
+                else {
+                    System.out.println("Este objeto no se puede recoger.");
+                    items.add(cogerItem);
+                    drop(command);
+                }
             }            
+        }
+    }
+    
+    private void drop (Command command) {
+        if (!command.hasSecondWord()) {
+            System.out.println("Indica el objeto que deseas soltar.");
+        }
+        else {
+            String item = command.getSecondWord();
+            Item soltarItem = null;
+            for (Item itemASoltar : items) {
+                if (itemASoltar.getId().equals(item)) {
+                    soltarItem = itemASoltar;                    
+                }
+            }
+            items.remove(soltarItem);
+            if (soltarItem == null) {
+                System.out.println("No existe ese objeto en tu inventario.");
+            }
+            else {
+                currentRoom.soltarItem(soltarItem);
+            }
         }
     }
 }
