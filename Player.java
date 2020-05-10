@@ -92,7 +92,7 @@ public class Player
         }
     }
     
-    private void drop (Command command) {
+    public void drop (Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("Indica el objeto que deseas soltar.");
         }
