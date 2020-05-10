@@ -11,11 +11,13 @@ public class Player
 {   
     private Room currentRoom;
     private Stack<Room> salasAnteriores;
+    private ArrayList<Item> items;
 
     public Player(Room room)
     {
         currentRoom = room;
         salasAnteriores = new Stack<>();
+        items = new ArrayList<>();
     }
 
     /** 
@@ -55,12 +57,31 @@ public class Player
         }
         look();
     }
-    
+
     public void look() {
         System.out.println(currentRoom.getLongDescription());
     }
-    
+
     public void eat() {
         System.out.println("You have eaten now and you are not hungry any more.");
+    }
+
+    public void take(Command command)
+    {
+        if (!command.hasSecondWord()) {
+            System.out.println("¿Qué objeto deseas coger?");        
+        }
+        else {        
+            String item = command.getSecondWord();
+            Item cogerItem = currentRoom.cogerItem(item);
+            if (cogerItem == null) {
+                System.out.println("Ese objeto no existe en esta habitación.");
+            }
+            else {
+                items.add(cogerItem);
+                System.out.println("Has recogido el objeto: " + cogerItem.getId()
+                    + " ,de peso: " + cogerItem.getItemWeight() + ".");
+            }            
+        }
     }
 }

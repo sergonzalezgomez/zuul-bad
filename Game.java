@@ -78,12 +78,12 @@ public class Game
         rio.setExits("north", puente);
 
         // initialise room items
-        laberinto.addItem("Manzana", 180);
-        tesoro.addItem("Cofre del tesoro", 1500);
-        catacumbas.addItem("Espada", 1300);
-        catacumbas.addItem("Poción", 60);
-        puente.addItem("Puñal", 90);
-        rio.addItem("Linterna", 200);
+        laberinto.addItem("manzana", "Manzana dorada", 180);
+        tesoro.addItem("cofre", "Cofre del tesoro lleno de monedas", 1500);
+        catacumbas.addItem("espada", "Espada encantada",1300);
+        catacumbas.addItem("pocion", "Poción mágica", 60);
+        puente.addItem("puñal", "Puñal encantado", 90);
+        rio.addItem("linterna", "linterna con alta durabilidad", 200);
 
         return entradaCueva;  // start game outside
     }
@@ -152,6 +152,9 @@ public class Game
         }
         else if (commandWord.equals("back")) { 
             player.back();
+        }
+         else if (commandWord.equals("take")) {
+            player.take(command);
         }
         return wantToQuit;
     }

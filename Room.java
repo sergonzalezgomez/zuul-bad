@@ -97,8 +97,21 @@ public class Room
         return aDevolver + "\n" + getExitString();
     }
 
-    public void addItem(String nombre, int peso) {
-        Item item = new Item(nombre, peso);
+    public void addItem(String id, String descripcion,  int peso) {
+        Item item = new Item(id, descripcion, peso);
         items.add(item);
+    }
+    
+    public Item cogerItem(String item)
+    {
+        Item itemRecogido = null;
+        Item itemABorrar = null;
+        for (Item itemActual : items) {
+            if (itemActual.getId().equals(item)) {
+                itemRecogido = itemActual;
+            }
+        }
+        items.remove(itemRecogido);
+        return itemRecogido;
     }
 }
