@@ -79,10 +79,10 @@ public class Game
 
         // initialise room items
         laberinto.addItem("manzana", "Manzana dorada", 180, true);
-        tesoro.addItem("cofre", "Cofre del tesoro lleno de monedas", 1500, false);
-        catacumbas.addItem("espada", "Espada encantada",1300, true);
+        tesoro.addItem("cofre", "Cofre del tesoro lleno de monedas", 300, false);
+        catacumbas.addItem("espada", "Espada encantada",360, true);
         catacumbas.addItem("pocion", "Poción mágica", 60, true);
-        puente.addItem("puñal", "Puñal encantado", 90, true);
+        puente.addItem("puñal", "Puñal encantado", 100, true);
         rio.addItem("linterna", "linterna con alta durabilidad", 200,false);
 
         return entradaCueva;  // start game outside

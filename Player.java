@@ -12,12 +12,16 @@ public class Player
     private Room currentRoom;
     private Stack<Room> salasAnteriores;
     private ArrayList<Item> items;
+    private int pesoActual;
+    private int pesoMax;
 
     public Player(Room room)
     {
         currentRoom = room;
         salasAnteriores = new Stack<>();
         items = new ArrayList<>();
+        pesoActual = 0;
+        pesoMax = 600;
     }
 
     /** 
@@ -79,9 +83,18 @@ public class Player
             }
             else {
                 if (cogerItem.sePuedeCoger()){
-                    items.add(cogerItem);
-                    System.out.println("Has recogido el objeto: " + cogerItem.getId()
-                        + " ,de peso: " + cogerItem.getItemWeight() + ".");
+                    if (pesoActual + cogerItem.getItemWeight() < pesoMax) {
+                        items.add(cogerItem);
+                        pesoActual += cogerItem.getItemWeight();
+                        System.out.println("Has recogido el objeto: " + cogerItem.getId()
+                            + " ,de peso: " + cogerItem.getItemWeight() + ".");
+                    }
+                    else {
+                        System.out.println("Has alcanzado el máximo peso total de objetos!");
+                        items.add(cogerItem);
+                        drop(command);
+                        pesoActual += cogerItem.getItemWeight();
+                    }
                 }
                 else {
                     System.out.println("Este objeto no se puede recoger.");
@@ -91,7 +104,7 @@ public class Player
             }            
         }
     }
-    
+
     public void drop (Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("Indica el objeto que deseas soltar.");
@@ -110,10 +123,13 @@ public class Player
             }
             else {
                 currentRoom.soltarItem(soltarItem);
+                pesoActual -= soltarItem.getItemWeight();
+                System.out.println("Soltado el objeto: " + 
+                    soltarItem.getItemDescription() + ", de peso: " + soltarItem.getItemWeight() + ".");
             }
         }
     }
-    
+
     public void items()
     {
         if (!items.isEmpty()) {
