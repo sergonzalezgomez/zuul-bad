@@ -11,11 +11,17 @@ public class Player
 {   
     private Room currentRoom;
     private Stack<Room> salasAnteriores;
+    private ArrayList<Item> items;
+    private int pesoActual;
+    private int pesoMax;
 
     public Player(Room room)
     {
         currentRoom = room;
         salasAnteriores = new Stack<>();
+        items = new ArrayList<>();
+        pesoActual = 0;
+        pesoMax = 600;
     }
 
     /** 
@@ -55,12 +61,87 @@ public class Player
         }
         look();
     }
-    
+
     public void look() {
         System.out.println(currentRoom.getLongDescription());
     }
-    
+
     public void eat() {
         System.out.println("You have eaten now and you are not hungry any more.");
+    }
+
+    public void take(Command command)
+    {
+        if (!command.hasSecondWord()) {
+            System.out.println("¿Qué objeto deseas coger?");        
+        }
+        else {        
+            String item = command.getSecondWord();
+            Item cogerItem = currentRoom.cogerItem(item);
+            if (cogerItem == null) {
+                System.out.println("Ese objeto no existe en esta habitación.");
+            }
+            else {
+                if (cogerItem.sePuedeCoger()){
+                    if (pesoActual + cogerItem.getItemWeight() < pesoMax) {
+                        items.add(cogerItem);
+                        pesoActual += cogerItem.getItemWeight();
+                        System.out.println("Has recogido el objeto: " + cogerItem.getId()
+                            + " ,de peso: " + cogerItem.getItemWeight() + ".");
+                    }
+                    else {
+                        System.out.println("Has alcanzado el máximo peso total de objetos!");
+                        items.add(cogerItem);
+                        drop(command);
+                        pesoActual += cogerItem.getItemWeight();
+                    }
+                }
+                else {
+                    System.out.println("Este objeto no se puede recoger.");
+                    items.add(cogerItem);
+                    drop(command);
+                }
+            }            
+        }
+    }
+
+    public void drop (Command command) {
+        if (!command.hasSecondWord()) {
+            System.out.println("Indica el objeto que deseas soltar.");
+        }
+        else {
+            String item = command.getSecondWord();
+            Item soltarItem = null;
+            for (Item itemASoltar : items) {
+                if (itemASoltar.getId().equals(item)) {
+                    soltarItem = itemASoltar;                    
+                }
+            }
+            items.remove(soltarItem);
+            if (soltarItem == null) {
+                System.out.println("No existe ese objeto en tu inventario.");
+            }
+            else {
+                currentRoom.soltarItem(soltarItem);
+                pesoActual -= soltarItem.getItemWeight();
+                System.out.println("Soltado el objeto: " + 
+                    soltarItem.getItemDescription() + ", de peso: " + soltarItem.getItemWeight() + ".");
+            }
+        }
+    }
+
+    public void items()
+    {
+        if (!items.isEmpty()) {
+            int pesoTotal = 0;
+            for (Item item : items) {
+                System.out.println(item.getItemDescription());
+                pesoTotal += item.getItemWeight();
+            }
+            System.out.println("Peso total de los objetos: " + pesoTotal + ".");
+        }
+        else {
+            System.out.println("Todavía no tienes objetos.");
+        }
     }
 }
