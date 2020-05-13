@@ -144,4 +144,29 @@ public class Player
             System.out.println("Todavía no tienes objetos.");
         }
     }
+
+    public void drink(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            System.out.println("Drink what?");
+        }
+        else {
+            if (command.getSecondWord().equals("pocion")) {
+                if (!items.isEmpty()) {
+                    for(Item item : items) {
+                        if(item.getId().equals(command.getSecondWord())) {
+                            pesoMax = 1200;
+                            System.out.println("Has consumido la poción mágica y ahora puedes llevar el doble de peso!");
+                        }
+                    }
+                }
+                else {
+                    System.out.println("Todavía no tienes la poció en tu inventario.");
+                }
+            }
+            else {
+                System.out.println("No puedes beber este objeto!");
+            }
+        }
+    }
 }
